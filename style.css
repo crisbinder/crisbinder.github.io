@@ -1,0 +1,89 @@
+body{
+margin:0;
+background:#0f1115;
+color:#fff;
+font-family:-apple-system;
+}
+
+/* 毛玻璃 */
+.blur{
+backdrop-filter: blur(12px);
+background: rgba(20,20,20,0.6);
+}
+
+/* 顶部 */
+.header{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:20px 40px;
+z-index:100;
+}
+
+/* 分类 */
+.tab{
+margin-left:20px;
+cursor:pointer;
+opacity:0.6;
+}
+
+.tab.active{
+opacity:1;
+border-bottom:2px solid #fff;
+}
+
+/* 瀑布流 */
+.masonry{
+column-count:4;
+column-gap:20px;
+padding:120px 40px;
+}
+
+/* 卡片 */
+.card{
+break-inside: avoid;
+margin-bottom:20px;
+border-radius:12px;
+overflow:hidden;
+position:relative;
+cursor:pointer;
+transition:0.3;
+}
+
+.card img{
+width:100%;
+display:block;
+}
+
+/* hover 动效 */
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+opacity:0;
+transition:0.3;
+}
+
+.card:hover::after{
+opacity:1;
+}
+
+/* 标题 */
+.info{
+position:absolute;
+bottom:10px;
+left:10px;
+opacity:0;
+transition:0.3;
+}
+
+.card:hover .info{
+opacity:1;
+}
