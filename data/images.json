@@ -1,5 +1,22 @@
 [
-  {"url":"images/1.jpg","type":"landscape","title":"风光1"},
-  {"url":"images/2.jpg","type":"portrait","title":"人像1"},
-  {"url":"images/3.jpg","type":"astro","title":"星空1"}
+  {
+    "file": "1.jpg",
+    "title": "城市夜景",
+    "category": "landscape"
+  },
+  {
+    "file": "2.jpg",
+    "title": "星空银河",
+    "category": "stars"
+  },
+  {
+    "file": "3.jpg",
+    "title": "人像写真",
+    "category": "portrait"
+  },
+  {
+    "file": "4.jpg",
+    "title": "街头人文",
+    "category": "humanity"
+  }
 ]
