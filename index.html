@@ -1,274 +1,40 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<title>Crisbinder Studio</title>
-
-<style>
-
-/* ===== 基础 ===== */
-
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont;
-background:#ffffff;
-color:#111;
-}
-
-/* ===== 顶部 ===== */
-
-.header{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(255,255,255,0.8);
-backdrop-filter: blur(10px);
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-z-index:100;
-border-bottom:1px solid #eee;
-}
-
-.logo{
-font-weight:600;
-}
-
-/* 分类 */
-
-.tabs span{
-margin-left:20px;
-cursor:pointer;
-color:#888;
-transition:0.3;
-}
-
-.tabs span.active{
-color:#000;
-border-bottom:2px solid #000;
-}
-
-/* ===== 搜索 ===== */
-
-.search{
-margin-top:100px;
-text-align:center;
-}
-
-.search input{
-width:400px;
-padding:12px 20px;
-border-radius:30px;
-border:1px solid #ddd;
-outline:none;
-}
-
-/* ===== 瀑布流 ===== */
-
-.gallery{
-column-count:4;
-column-gap:20px;
-padding:40px;
-}
-
-.card{
-break-inside:avoid;
-margin-bottom:20px;
-background:#fff;
-border-radius:12px;
-overflow:hidden;
-cursor:pointer;
-transition:0.4s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-.card img{
-width:100%;
-display:block;
-}
-
-/* 文字 */
-
-.info{
-padding:12px;
-}
-
-.title{
-font-size:14px;
-margin-bottom:5px;
-}
-
-.标签{
-font-size:12px;
-color:#888;
-}
-
-/* ===== 动画（分类切换）===== */
-
-.fade{
-animation:fade 0.4;
-}
-
-@keyframes fade{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-/* ===== 全屏查看 ===== */
-
-。viewer{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.9);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4;
-}
-
-。viewer.active{
-opacity:1;
-pointer-events:auto;
-}
-
-。viewer img{
-max-width:90%;
-max-height:90%;
-border-radius:10px;
-transform:scale(0.8);
-transition:0.4;
-}
-
-。viewer.active img{
-transform:cale(1);
-}
-
-</style>
+  <meta charset="UTF-8">
+  <title>Cris 摄影集</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
 <!-- 顶部 -->
-<div class="header">
-<div class="logo">Cris Studio</div>
+<header>
+  <h1>CrisBinder</h1>
 
-<div class="tabs">
-<span class="tab active" data-输入="all">全部</span>
-<span class="tab" data-输入="landscape">风光</span>
-<span class="tab" data-输入="portrait">人像</span>
-<span class="tab" data-输入="street">人文</span>
-<span class="tab" data-输入="astro">星空</span>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="搜索图片...">
+  </div>
+
+  <div class="categories">
+    <button data-cat="all" class="active">全部</button>
+    <button data-cat="landscape">风光</button>
+    <button data-cat="stars">星空</button>
+    <button data-cat="portrait">人像</button>
+    <button data-cat="humanity">人文</button>
+  </div>
+</header>
+
+<!-- 图片区域 -->
+<main id="gallery"></main>
+
+<!-- 全屏查看 -->
+<div id="viewer" class="hidden">
+  <img id="viewer-img">
 </div>
-</div>
 
-<!-- 搜索 -->
-<div class="search">
-<input id="searchInput" placeholder="搜索图片...">
-</div>
+<!-- 暗黑模式按钮 -->
+<div id="theme-toggle">🌙</div>
 
-<!-- 图片 -->
-<div id="gallery" class="gallery"></div>
-
-<!-- 全屏 -->
-<div id="viewer" class="viewer">
-<img id="viewerImg">
-</div>
-
-<cript>
-
-/* ===== 数据 ===== */
-
-const data = [
-{url:"https://picsum.photos/500/300?1",type:"landscape",title:"雪山风光",标签:"自然 山"},
-{url:"https://picsum.photos/500/600?2",type:"portrait",title:"人物写真",标签:"人像"},
-{url:"https://picsum.photos/500/400?3",type:"street",title:"街头抓拍",标签:"人文"},
-{url:"https://picsum.photos/500/700?4",type:"astro",title:"星空银河",标签:"夜空"},
-{url:"https://picsum.photos/500/350?5",type:"landscape",title:"湖面日落",标签:"风光"}
-]
-
-let currentType = "all"
-let keyword = ""
-
-const gallery = document.getElementById("gallery")
-
-/* ===== 渲染 ===== */
-
-function render(){
-
-gallery。classList。remove("fade")
-void gallery.offsetWidth
-gallery.classList.add("fade")
-
-gallery.innerHTML=""
-
-const filtered = data.filter(item=>{
-return (currentType==="all" || item.type===currentType)
-&& (item.title.在cludes(keyword) || item.标签.在cludes(keyword))
-})
-
-filtered.forEach(item=>{
-const div = document.createElement("div")
-div.className="card"
-
-div.innerHTML=`
-<img src="${item.url}">
-<div class="info">
-<div class="title">${item.title}</div>
-<div class="tags">${item.标签}</div>
-</div>
-`
-
-div.于click=()=>openViewer(item.url)
-
-gallery.appendChild(div)
-})
-}
-
-/* ===== 分类 ===== */
-
-document.querySelectorAll(".tab").forEach(tab=>{
-tab.于click=()=>{
-document.querySelector(".active").classList.remove("active")
-tab.classList.add("active")
-currentType = tab.dataset.type
-render()
-}
-})
-
-/* ===== 搜索 ===== */
-
-document.getElementById("searchInput").oninput = (e)=>{
-keyword = e.target.value
-render()
-}
-
-/* ===== 全屏查看 ===== */
-
-const viewer = document.getElementById("viewer")
-const viewerImg = document.getElementById("viewerImg")
-
-function openViewer(src){
-viewer.classList.add("active")
-viewerImg.src = src
-}
-
-viewer.onclick=()=>{
-viewer.classList.remove("active")
-}
-
-/* ===== 初始化 ===== */
-
-render()
-
-</cript>
-
-</body>
 <script src="js/app.js"></script>
+</body>
 </html>
