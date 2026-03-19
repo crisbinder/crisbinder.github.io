@@ -103,7 +103,7 @@ font-size:14px;
 margin-bottom:5px;
 }
 
-.tags{
+.标签{
 font-size:12px;
 color:#888;
 }
@@ -111,7 +111,7 @@ color:#888;
 /* ===== 动画（分类切换）===== */
 
 .fade{
-animation:fade 0.4s;
+animation:fade 0.4;
 }
 
 @keyframes fade{
@@ -121,7 +121,7 @@ to{opacity:1; transform:translateY(0);}
 
 /* ===== 全屏查看 ===== */
 
-.viewer{
+。viewer{
 position:fixed;
 inset:0;
 background:rgba(0,0,0,0.9);
@@ -133,12 +133,12 @@ pointer-events:none;
 transition:0.4;
 }
 
-.viewer.active{
+。viewer.active{
 opacity:1;
 pointer-events:auto;
 }
 
-.viewer img{
+。viewer img{
 max-width:90%;
 max-height:90%;
 border-radius:10px;
@@ -146,7 +146,7 @@ transform:scale(0.8);
 transition:0.4;
 }
 
-.viewer.active img{
+。viewer.active img{
 transform:cale(1);
 }
 
@@ -160,11 +160,11 @@ transform:cale(1);
 <div class="logo">Cris Studio</div>
 
 <div class="tabs">
-<span class="tab active" data-type="all">全部</span>
-<span class="tab" data-type="landscape">风光</span>
-<span class="tab" data-type="portrait">人像</span>
-<span class="tab" data-type="street">人文</span>
-<span class="tab" data-type="astro">星空</span>
+<span class="tab active" data-输入="all">全部</span>
+<span class="tab" data-输入="landscape">风光</span>
+<span class="tab" data-输入="portrait">人像</span>
+<span class="tab" data-输入="street">人文</span>
+<span class="tab" data-输入="astro">星空</span>
 </div>
 </div>
 
@@ -270,4 +270,5 @@ render()
 </cript>
 
 </body>
+<script src="js/app.js"></script>
 </html>
