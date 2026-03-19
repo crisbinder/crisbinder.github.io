@@ -1,80 +1,83 @@
-const gallery = document.getElementById("gallery")
-const tabs = document.querySelectorAll(".tab")
+let data = [];
+let currentCat = "all";
 
-let allData = []
-let page = 0
-let currentType = "all"
+fetch("data/images.json")
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    render();
+  });
 
-/* 模拟加载数据 */
-async function loadData(){
-    const res = await fetch("data/images.json")
-    allData = await res.json()
-    render()
-}
+function render() {
+  const gallery = document.getElementById("gallery");
+  const keyword = document.getElementById("search").value.toLowerCase();
 
-/* 渲染 */
-function render(){
+  gallery.innerHTML = "";
 
-    const data = currentType === "all"
-        ? allData
-        : allData.filter(i=>i.type === currentType)
-
-    gallery.innerHTML = ""
-
-    data.forEach(item=>{
-        const div = document.createElement("div")
-        div.className = "card"
-
-        div.innerHTML = `
-        <img data-src="${item.url}" class="lazy">
-        <div class="info">${item.title}</div>
-        `
-
-        gallery.appendChild(div)
+  data
+    .filter(item => {
+      return (
+        (currentCat === "all" || item.category === currentCat) &&
+        item.title.toLowerCase().includes(keyword)
+      );
     })
+    .forEach(item => {
+      const div = document.createElement("div");
+      div.className = "card";
 
-    lazyLoad()
+      div.innerHTML = `
+        <img src="images/${item.file}">
+        <p>${item.title}</p>
+      `;
+
+      div.onclick = () => openViewer(item.file);
+
+      gallery.appendChild(div);
+    });
 }
 
 /* 分类切换 */
-tabs.forEach(tab=>{
-    tab.onclick = ()=>{
-        document.querySelector(".active").classList.remove("active")
-        tab.classList.add("active")
+document.querySelectorAll(".categories button").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
-        currentType = tab.dataset.type
-        render()
-    }
-})
+    currentCat = btn.dataset.cat;
+    render();
+  };
+});
 
-/* 懒加载 */
-function lazyLoad(){
-    const imgs = document.querySelectorAll(".lazy")
+/* 搜索 */
+document.getElementById("search").oninput = render;
 
-    const io = new IntersectionObserver(entries=>{
-        entries.forEach(entry=>{
-            if(entry.isIntersecting){
-                const img = entry.target
-                img.src = img.dataset.src
-                io.unobserve(img)
-            }
-        })
-    })
+/* 全屏查看 */
+function openViewer(src) {
+  const viewer = document.getElementById("viewer");
+  const img = document.getElementById("viewer-img");
 
-    imgs.forEach(img=>io.observe(img))
+  img.src = "images/" + src;
+
+  viewer.classList.remove("hidden");
+  setTimeout(()=>viewer.classList.add("show"),10);
 }
 
-/* 无限滚动 */
-window.addEventListener("scroll",()=>{
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100){
+document.getElementById("viewer").onclick = () => {
+  const viewer = document.getElementById("viewer");
+  viewer.classList.remove("show");
 
-        loadMore()
-    }
-})
+  setTimeout(()=>viewer.classList.add("hidden"),300);
+};
 
-function loadMore(){
-    // 模拟追加
-    render()
+/* 暗黑模式 */
+const toggle = document.getElementById("theme-toggle");
+
+toggle.onclick = () => {
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem("theme", document.body.classList.contains("dark"));
+};
+
+/* 记住主题 */
+if (localStorage.getItem("theme") === "true") {
+  document.body.classList.add("dark");
 }
-
-loadData()
