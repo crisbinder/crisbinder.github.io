@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gallery</title>
+
+<style>
+
+body{
+margin:0;
+font-family:sans-serif;
+background:#f7f7f7;
+color:#333;
+}
+
+/* 顶部 */
+
+.header{
+padding:20px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo{
+font-weight:bold;
+font-size:20px;
+}
+
+.nav a{
+margin-left:20px;
+text-decoration:none;
+color:#666;
+}
+
+/* 搜索 */
+
+.search{
+padding:30px;
+text-align:center;
+}
+
+.search input{
+width:400px;
+padding:12px;
+border-radius:30px;
+border:1px solid #ddd;
+}
+
+/* 分类 */
+
+.tabs{
+display:flex;
+gap:20px;
+padding:0 40px;
+}
+
+.tabs span{
+cursor:pointer;
+padding-bottom:5px;
+}
+
+.tabs .active{
+border-bottom:2px solid black;
+}
+
+/* 卡片区域 */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+gap:30px;
+padding:40px;
+}
+
+/* 卡片 */
+
+.card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* 图片 */
+
+.card img{
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+}
+
+/* 信息 */
+
+.info{
+padding:15px;
+}
+
+.title{
+font-weight:600;
+margin-bottom:8px;
+}
+
+.tags{
+font-size:12px;
+color:#888;
+}
+
+.badge{
+background:#eee;
+padding:2px 6px;
+border-radius:4px;
+margin-left:6px;
+font-size:11px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 顶部 -->
+
+<div class="header">
+<div class="logo">Cris Studio</div>
+
+<div class="nav">
+<a href="#">素材库</a>
+<a href="#">视频</a>
+<a href="#">照片</a>
+</div>
+</div>
+
+<!-- 搜索 -->
+
+<div class="search">
+<input placeholder="搜索你想要的素材...">
+</div>
+
+<!-- 分类 -->
+
+<div class="tabs">
+<span class="active">全部</span>
+<span>视频</span>
+<span>照片</span>
+</div>
+
+<!-- 卡片 -->
+
+<div class="grid">
+
+<div class="card">
+<img src="https://picsum.photos/600/400">
+
+<div class="info">
+<div class="title">城市夜景 <span class="badge">4K</span></div>
+<div class="tags">城市 · 夜景 · RED</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/601/400">
+
+<div class="info">
+<div class="title">海边日落 <span class="badge">4K</span></div>
+<div class="tags">自然 · 海边 · 广角</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/602/400">
+
+<div class="info">
+<div class="title">码头风景 <span class="badge">4K</span></div>
+<div class="tags">人文 · 建筑</div>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
