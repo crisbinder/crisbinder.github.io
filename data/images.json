@@ -1,6 +1,7 @@
+// data/images.json 示例
 [
-  { "filename": "雪山日出", "url": "images1/1.jpg", "category": "1" },
-  { "filename": "夏日银河", "url": "images2/1.jpg", "category": "2" },
-  { "filename": "街头老人", "url": "images3/1.jpg", "category": "3" },
-  { "filename": "城市掠影", "url": "images4/1.jpg", "category": "4" }
+  {"src":"images1/1.jpg","name":"1.jpg","cat":1},
+  {"src":"images2/1.jpg","name":"1.jpg","cat":2},
+  {"src":"images3/1.jpg","name":"1.jpg","cat":3},
+  {"src":"images4/1.jpg","name":"1.jpg","cat":4}
 ]
