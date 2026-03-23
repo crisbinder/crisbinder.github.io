@@ -1,22 +1,6 @@
 [
-  {
-    "file": "1.jpg",
-    "title": "城市夜景",
-    "category": "landscape"
-  },
-  {
-    "file": "2.jpg",
-    "title": "星空银河",
-    "category": "stars"
-  },
-  {
-    "file": "3.jpg",
-    "title": "人像写真",
-    "category": "portrait"
-  },
-  {
-    "file": "4.jpg",
-    "title": "街头人文",
-    "category": "humanity"
-  }
+  { "filename": "雪山日出", "url": "images1/1.jpg", "category": "1" },
+  { "filename": "夏日银河", "url": "images2/1.jpg", "category": "2" },
+  { "filename": "街头老人", "url": "images3/1.jpg", "category": "3" },
+  { "filename": "城市掠影", "url": "images4/1.jpg", "category": "4" }
 ]
