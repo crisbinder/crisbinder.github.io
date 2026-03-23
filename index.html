@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!-- index.html -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,31 +6,26 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<header>
-  <h1>CRIS 摄影集</h1>
-
-  <input type="text" id="search" placeholder="搜索图片...">
-
-  <div class="tabs">
+  <header>
+    <h1>Cris 摄影集</h1>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="搜索图片...">
+    </div>
+  </header>
+  <nav>
     <button data-cat="all" class="active">全部</button>
     <button data-cat="1">风光</button>
     <button data-cat="2">星空</button>
     <button data-cat="3">人像</button>
     <button data-cat="4">人文</button>
+  </nav>
+  <main id="gallery"></main>
+  <!-- 主题切换 -->
+  <div id="themeToggle">🌙</div>
+  <!-- 全屏查看 -->
+  <div id="viewer">
+    <img id="viewerImg">
   </div>
-</header>
-
-<main id="gallery"></main>
-
-<!-- 全屏预览 -->
-<div id="viewer" class="hidden">
-  <img id="viewer-img">
-</div>
-
-<!-- 主题切换 -->
-<div id="theme-toggle">🌙</div>
-
-<script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
