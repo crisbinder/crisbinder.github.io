@@ -1,40 +1,36 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>Cris 摄影集</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的摄影集</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header class="glass-header">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索你想要的素材...">
+        </div>
+        <nav class="categories">
+            <button class="cat-btn active" data-cat="all">全部</button>
+            <button class="cat-btn" data-cat="1">风光</button>
+            <button class="cat-btn" data-cat="2">星空</button>
+            <button class="cat-btn" data-cat="3">人像</button>
+            <button class="cat-btn" data-cat="4">人文</button>
+        </nav>
+    </header>
 
-<!-- 顶部 -->
-<header>
-  <h1>CrisBinder</h1>
+    <main>
+        <div class="gallery" id="gallery">
+            </div>
+    </main>
 
-  <div class="search-box">
-    <input type="text" id="search" placeholder="搜索图片...">
-  </div>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
 
-  <div class="categories">
-    <button data-cat="all" class="active">全部</button>
-    <button data-cat="landscape">风光</button>
-    <button data-cat="stars">星空</button>
-    <button data-cat="portrait">人像</button>
-    <button data-cat="humanity">人文</button>
-  </div>
-</header>
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="全屏图片" id="lightboxImg">
+    </div>
 
-<!-- 图片区域 -->
-<main id="gallery"></main>
-
-<!-- 全屏查看 -->
-<div id="viewer" class="hidden">
-  <img id="viewer-img">
-</div>
-
-<!-- 暗黑模式按钮 -->
-<div id="theme-toggle">🌙</div>
-
-<script src="js/app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
