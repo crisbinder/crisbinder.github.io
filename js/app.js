@@ -1,78 +1,70 @@
+// js/app.js
 let data = [];
-let currentCat = "all";
+let currentCat = 'all';
 
-fetch("data/images.json")
+fetch('data/images.json')
   .then(res => res.json())
-  .then(res => {
-    data = res;
+  .then(json => {
+    data = json;
     render();
   });
 
 function render() {
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
+  const gallery = document.getElementById('gallery');
+  const keyword = document.getElementById('search').value.toLowerCase();
 
-  let keyword = document.getElementById("search").value.toLowerCase();
+  gallery.innerHTML = '';
 
-  data.forEach(item => {
-    if (currentCat !== "all" && item.cat != currentCat) return;
-    if (!item.file.toLowerCase().includes(keyword)) return;
-
-    let folder = "images" + item.cat;
-
-    let div = document.createElement("div");
-    div.className = "card";
-
+  data.filter(item => {
+    return (currentCat === 'all' || item.cat == currentCat)
+      && item.name.toLowerCase().includes(keyword);
+  }).forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'card';
     div.innerHTML = `
-      <img src="${folder}/${item.file}">
-      <p>${item.file}</p>
+      <img src="${item.src}">
+      <p>${item.name}</p>
     `;
 
-    div.onclick = () => openViewer(`${folder}/${item.file}`);
+    div.onclick = () => openViewer(item.src);
 
     gallery.appendChild(div);
   });
 }
 
-// 搜索
-document.getElementById("search").oninput = render;
+// 分类切换
 
-// 分类
-
-document.querySelectorAll(".tabs button").forEach(btn => {
+document.querySelectorAll('nav button').forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
     currentCat = btn.dataset.cat;
     render();
-  };
+  }
 });
 
-// 全屏
-function openViewer(src) {
-  let viewer = document.getElementById("viewer");
-  let img = document.getElementById("viewer-img");
+// 搜索
 
-  img.src = src;
-  viewer.classList.remove("hidden");
-
-  setTimeout(()=>viewer.classList.add("show"),10);
-}
-
-// 关闭
-
-document.getElementById("viewer").onclick = () => {
-  let viewer = document.getElementById("viewer");
-  viewer.classList.remove("show");
-  setTimeout(()=>viewer.classList.add("hidden"),400);
-};
+document.getElementById('search').oninput = render;
 
 // 主题切换
-
-let toggle = document.getElementById("theme-toggle");
-
+const toggle = document.getElementById('themeToggle');
 toggle.onclick = () => {
-  document.body.classList.toggle("dark");
-  toggle.innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
-};
+  document.body.classList.toggle('dark');
+  toggle.innerText = document.body.classList.contains('dark') ? '☀️' : '🌙';
+}
+
+// 全屏查看
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewerImg');
+
+function openViewer(src) {
+  viewer.style.display = 'flex';
+  viewerImg.src = src;
+  setTimeout(()=>viewer.classList.add('show'),10);
+}
+
+viewer.onclick = () => {
+  viewer.classList.remove('show');
+  setTimeout(()=>viewer.style.display='none',300);
+}
