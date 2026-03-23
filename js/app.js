@@ -1,98 +1,70 @@
-document。addEventListener('DOMContentLoaded', () => {
-    const gallery = document.getElementById('gallery');
-    const searchInput = document.getElementById('searchInput');
-    const catBtns = document.querySelectorAll('.cat-btn');
-    const themeToggle = document.getElementById('themeToggle');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
+// js/app.js
+let data = [];
+let currentCat = 'all';
 
-    let imagesData = [];
+fetch('data/images.json')
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    render();
+  });
 
-    // 1. 加载图片数据
-    fetch('data/images.json')
-        .then(response => response.json())
-        .then(data => {
-            imagesData = data;
-            renderGallery(imagesData);
-        })
-        .catch(err => console.error('加载图片数据失败:', err));
+function render() {
+  const gallery = document.getElementById('gallery');
+  const keyword = document.getElementById('search').value.toLowerCase();
 
-    // 2. 渲染网格
-    function renderGallery(data) {
-        gallery.innerHTML = '';
-        data.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'gallery-item';
-            div.dataset.category = item.category;
-            div.dataset.title = item.filename;
-            
-            div.innerHTML = `
-                <img src="${item.url}" alt="${item.filename}" loading="lazy">
-                <div class="item-title">${item.filename}</div>
-            `;
-            
-            // 点击放大
-            div.addEventListener('click', () => openLightbox(item.url));
-            gallery.appendChild(div);
-        });
-    }
+  gallery.innerHTML = '';
 
-    // 3. 搜索功能
-    searchInput.addEventListener('input', (e) => {
-        const keyword = e.target.value.toLowerCase();
-        filterImages(keyword, document.querySelector('.cat-btn.active').dataset.cat);
-    });
+  data.filter(item => {
+    return (currentCat === 'all' || item.cat == currentCat)
+      && item.name.toLowerCase().includes(keyword);
+  }).forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <img src="${item.src}">
+      <p>${item.name}</p>
+    `;
 
-    // 4. 分类切换 (带动画)
-    catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelector('.cat-btn.active').classList.remove('active');
-            btn.classList.add('active');
-            filterImages(searchInput.value.toLowerCase(), btn.dataset.cat);
-        });
-    });
+    div.onclick = () => openViewer(item.src);
 
-    function filterImages(keyword, category) {
-        const items = document.querySelectorAll('.gallery-item');
-        
-        items.forEach(item => {
-            const matchKeyword = item.dataset.title.toLowerCase().includes(keyword);
-            const matchCategory = category === 'all' || item.dataset.category === category;
+    gallery.appendChild(div);
+  });
+}
 
-            if (matchKeyword && matchCategory) {
-                item.classList.remove('hidden');
-                setTimeout(() => item.classList.remove('fade-out'), 10);
-            } else {
-                item.classList.add('fade-out');
-                // 等待动画结束后隐藏
-                setTimeout(() => {
-                    if(item.classList.contains('fade-out')) item.classList.add('hidden');
-                }, 400); 
-            }
-        });
-    }
+// 分类切换
 
-    // 5. 主题切换 (白/暗)
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.body.parentElement.getAttribute('data-theme');
-        if (currentTheme === 'dark') {
-            document.body.parentElement.removeAttribute('data-theme');
-            themeToggle.textContent = '🌙';
-        } else {
-            document.body.parentElement.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️';
-        }
-    });
-
-    // 6. 灯箱 (全屏交互)
-    function openLightbox(url) {
-        lightboxImg.src = url;
-        lightbox.classList.add('active');
-    }
-
-    lightbox.addEventListener('click', () => {
-        lightbox.classList.remove('active');
-        // 等待动画完毕清空src
-        setTimeout(() => lightboxImg.src = '', 400);
-    });
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    render();
+  }
 });
+
+// 搜索
+
+document.getElementById('search').oninput = render;
+
+// 主题切换
+const toggle = document.getElementById('themeToggle');
+toggle.onclick = () => {
+  document.body.classList.toggle('dark');
+  toggle.innerText = document.body.classList.contains('dark') ? '☀️' : '🌙';
+}
+
+// 全屏查看
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewerImg');
+
+function openViewer(src) {
+  viewer.style.display = 'flex';
+  viewerImg.src = src;
+  setTimeout(()=>viewer.classList.add('show'),10);
+}
+
+viewer.onclick = () => {
+  viewer.classList.remove('show');
+  setTimeout(()=>viewer.style.display='none',300);
+}
